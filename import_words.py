@@ -10,4 +10,3 @@ def import_all_words(path):
 def import_words(path, count):
     words = import_all_words(path)
     return words[:count]
-
