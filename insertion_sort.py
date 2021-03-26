@@ -1,14 +1,18 @@
-def swap_elements(list, id1, id2):
-    temp = list[id1], list[id2]
-    list[id2], list[id1] = temp
-    return list
+"""
+Algorytm sortowania przez wstawianie
+Bierzemy każdy element po kolei począwszy od drugiego,
+następnie "przesuwamy" w prawo elementy o indeksach mniejszych
+od danego, dopóki są one od niego większe. Gdy pojawi się element mniejszy,
+wstawiamy w to miejsce nasz aktualnie porównywany.
+"""
 
 
 def insertion_sort(list):
-    for marker in range(1, len(list)):
-        for element in range(marker, 0, -1):
-            if list[element] < list[element-1]:
-                list = swap_elements(list, element, element-1)
-            else:
-                break
+    for i in range(1, len(list)):
+        actual_elem = list[i]
+        j = i-1
+        while j >= 0 and actual_elem < list[j]:
+            list[j+1] = list[j]
+            j -= 1
+        list[j+1] = actual_elem
     return list

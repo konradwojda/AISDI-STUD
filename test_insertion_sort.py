@@ -1,9 +1,4 @@
-from insertion_sort import swap_elements, insertion_sort
-
-
-def test_swap_elements():
-    list = [1, 2, 3, 4, 5]
-    assert swap_elements(list, 0, 4) == [5, 2, 3, 4, 1]
+from insertion_sort import insertion_sort
 
 
 def test_instertion_sort_case1():
