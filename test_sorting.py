@@ -31,10 +31,15 @@ def test_sorted_text(functions):
     assert functions(TEXT) == sorted(TEXT)
 
 
+@pytest.mark.parametrize("functions", FUNCTIONS)
+def test_in_place(functions):
+    functions(TEXT)
+    assert TEXT == sorted(TEXT)
+
+
 @pytest.mark.benchmark(
     group="Benchmark Sortowania"
 )
-
 @pytest.mark.parametrize("functions", FUNCTIONS)
 @pytest.mark.parametrize("sizes", SIZES)
 def test_time(functions, sizes, benchmark):
