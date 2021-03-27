@@ -3,11 +3,12 @@ from insertion_sort import insertion_sort
 
 def make_gaps(_list):
     gaps = []
-    list_len = len(_list)
-    while list_len != 1:
-        list_len //= 2
-        gaps.append(list_len)
-    return gaps
+    gap = 1
+    while gap < len(_list):
+        gaps.append(gap)
+        gap *= 3
+        gap += 1
+    return reversed(gaps[:-1])
 
 
 def shell_sort(_list, gaps=None):
