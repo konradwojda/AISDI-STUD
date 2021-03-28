@@ -10,3 +10,9 @@ def test_shell_sort1():
 def test_shell_sort2():
     _list = [3, 8, 4, 5, 2, 6, 1, 7, 9]
     assert shell_sort(_list) == [1, 2, 3, 4, 5, 6, 7, 8, 9]
+
+
+def test_in_place():
+    _list = [3, 2, 1]
+    shell_sort(_list)
+    assert _list == [1, 2, 3]
