@@ -8,7 +8,10 @@ def make_gaps(_list):
         gaps.append(gap)
         gap *= 3
         gap += 1
-    return reversed(gaps[:-1])
+    if len(gaps) == 1:
+        return [1]
+    else:
+        return reversed(gaps[:-1])
 
 
 def shell_sort(_list, gaps=None):
