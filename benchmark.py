@@ -13,7 +13,7 @@ for i in range(5):
 from insertion_sort import insertion_sort
 from shell_sort import shell_sort
 from quicksort_recursive import quicksort
-from import_words import import_words
+from model_i import import_words
 n = {x}
 list = import_words('pan-tadeusz.txt', n)
 '''

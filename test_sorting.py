@@ -1,12 +1,11 @@
 import pytest
 
-from quicksort_recursive import quicksort, inbuild
+from quicksort_recursive import quicksort
 from insertion_sort import insertion_sort
-from import_words import import_words
-from import_numbers import generate_sorted_numbers
+from model_i import import_words, generate_sorted_numbers
 from shell_sort import shell_sort
 
-FUNCTIONS = {quicksort, insertion_sort, shell_sort, inbuild}
+FUNCTIONS = {quicksort, insertion_sort, shell_sort}
 SIZES = {*range(1000, 10001, 1000)}
 TEXT = import_words("pan-tadeusz.txt", 10000)
 NUMBERS = generate_sorted_numbers(10000)
