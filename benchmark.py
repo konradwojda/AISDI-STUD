@@ -5,11 +5,13 @@ from matplotlib import pyplot as plt
 ins_lst = []
 qck_lst = []
 shell_lst = []
+qck2_lst = []
 words_numbers = [10, 100, 1000, 2000, 3000, 4000, 5000, 6000]
 functions = {
+    'quick_sort(list)': qck2_lst,
     'insertion_sort(list)': ins_lst,
     'quicksort(list)': qck_lst,
-    'shell_sort(list)': shell_lst
+    'shell_sort(list)': shell_lst,
 }
 n_lst = []
 for i in range(len(words_numbers)):
@@ -19,6 +21,7 @@ for i in range(len(words_numbers)):
 from insertion_sort import insertion_sort
 from shell_sort import shell_sort
 from quicksort_recursive import quicksort
+from quick_sort import quick_sort
 from model_i import import_words
 n = {x}
 list = import_words('pan-tadeusz.txt', n)
@@ -36,6 +39,7 @@ list = import_words('pan-tadeusz.txt', n)
 plt.plot(n_lst, ins_lst, label='insertion sort', markersize=3)
 plt.plot(n_lst, qck_lst, label='quick sort', markersize=3)
 plt.plot(n_lst, shell_lst, label='shell sort', markersize=3)
+plt.plot(n_lst, qck2_lst, label='quick sort (non-rec)', markersize=3)
 plt.xticks(n_lst)
 plt.legend()
 plt.show()
