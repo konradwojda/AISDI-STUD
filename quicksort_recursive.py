@@ -21,8 +21,3 @@ def get_pivot(table):
     if len(table) % 2 == 0:
         return table[int(len(table)/2) - 1]
     return table[int((len(table) - 1)/2)]
-
-
-def inbuild(table):
-    table.sort()
-    return table
