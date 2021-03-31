@@ -12,7 +12,7 @@ def quick_sort(lst):
     while stack:
         stack_depth = max(stack_depth, len(stack))
         current_list = stack.pop()
-        if len(current_list) == 1:
+        if len(current_list) <= 1:
             lst += current_list
             continue
         left_elements = []
