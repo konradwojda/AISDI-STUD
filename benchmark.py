@@ -5,9 +5,10 @@ from matplotlib import pyplot as plt
 ins_lst = []
 qck_lst = []
 shell_lst = []
-x = 1000
+words_numbers = [10, 100, 1000, 2000, 3000, 4000, 5000, 6000]
 n_lst = []
-for i in range(5):
+for i in range(len(words_numbers)):
+    x = words_numbers[i]
     n_lst.append(x)
     sorting_func = f'''
 from insertion_sort import insertion_sort
@@ -44,12 +45,6 @@ list = import_words('pan-tadeusz.txt', n)
     temp_times.remove(min(temp_times))
     time = (temp_times[0] + temp_times[1])/2
     shell_lst.append(time)
-    # if i == 0:
-    #     x = x * 10
-    # if i > 0 and i < 10:
-    #     x = x + 100
-    # if i > 10:
-    x = x + 1000
 
 plt.plot(n_lst, ins_lst, label='insertion sort', markersize=3)
 plt.plot(n_lst, qck_lst, label='quick sort', markersize=3)
