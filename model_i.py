@@ -11,6 +11,7 @@ def import_words(path, count):
     words = import_all_words(path)
     return words[:count]
 
+
 def generate_sorted_numbers(count):
     numbers = []
     for i in range(1, count + 1):
