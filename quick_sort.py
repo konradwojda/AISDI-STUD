@@ -24,6 +24,10 @@ def quick_sort(lst):
                 left_elements.append(elem)
             else:
                 right_elements.append(elem)
-        stack.append(right_elements[:])
-        stack.append(left_elements[:] + [pivot])
+        if right_elements:
+            stack.append(right_elements[:])
+            stack.append(left_elements[:] + [pivot])
+        else:
+            stack.append([pivot])
+            stack.append([left_elements])
     return lst, stack_depth
