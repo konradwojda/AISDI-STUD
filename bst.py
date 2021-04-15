@@ -6,13 +6,13 @@ class Node:
         self.value = value
         self.parent = parent
 
-    def print(self, depth=0):
+    def to_string(self, depth=0):
         _str = ""
         if self.right_child:
-            _str += self.right_child.print(depth + 1)
+            _str += self.right_child.to_string(depth + 1)
         _str += ' ' * 4 * depth + ">" + str(self.value) + "\n"
         if self.left_child:
-            _str += self.left_child.print(depth + 1)
+            _str += self.left_child.to_string(depth + 1)
         return _str
 
 
@@ -111,11 +111,10 @@ class BST:
     def __str__(self):
         if not self.root:
             return ""
-        return self.root.print()
+        return self.root.to_string()
 
 
 if __name__ == "__main__":
-    values = [10, 5, 15, 2, 6, 17]
+    values = [10, 5, 15, 2, 6, 17, 12]
     bst = BST(values=values)
-    bst.remove_node(15)
     print(bst)
