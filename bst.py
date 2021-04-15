@@ -77,11 +77,13 @@ class BST:
                     node.left_child = Node(parent=node, value=value)
                     break
                 node = node.left_child
-            else:
+            elif value > node.value:
                 if node.right_child is None:
                     node.right_child = Node(parent=node, value=value)
                     break
                 node = node.right_child
+            elif value == node.value:
+                break
 
     def remove_node(self, value):
         node = self.find(value)
@@ -113,7 +115,7 @@ class BST:
 
 
 if __name__ == "__main__":
-    values = [10, 5, 15, 2, 6, 17, 12]
+    values = [10, 5, 15, 2, 6, 17]
     bst = BST(values=values)
     bst.remove_node(15)
     print(bst)
