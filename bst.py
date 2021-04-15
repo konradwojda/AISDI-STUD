@@ -6,6 +6,15 @@ class Node:
         self.value = value
         self.parent = parent
 
+    def print(self, depth=0):
+        _str = ""
+        if self.right_child:
+            _str += self.right_child.print(depth + 1)
+        _str += ' ' * 4 * depth + ">" + str(self.value) + "\n"
+        if self.left_child:
+            _str += self.left_child.print(depth + 1)
+        return _str
+
 
 class BST:
     def __init__(self, root=None, values=None):
@@ -97,6 +106,11 @@ class BST:
             node.value = y.value
         return y
 
+    def __str__(self):
+        if not self.root:
+            return ""
+        return self.root.print()
+
 
 if __name__ == "__main__":
     tree = BST()
@@ -112,3 +126,4 @@ if __name__ == "__main__":
     print(tree.find_succesor(tree.find(45)).value)
     tree.remove_node(56)
     print(tree.root.value)
+    print(tree)
