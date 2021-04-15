@@ -113,17 +113,7 @@ class BST:
 
 
 if __name__ == "__main__":
-    tree = BST()
-    tree.add(56)
-    tree.add(32)
-    tree.add(86)
-    tree.add(11)
-    tree.add(45)
-    tree.add(73)
-    tree.add(98)
-    print(tree.find_max_key().value)
-    print(tree.find_min_key().value)
-    print(tree.find_succesor(tree.find(45)).value)
-    tree.remove_node(56)
-    print(tree.root.value)
-    print(tree)
+    values = [10, 5, 15, 2, 6, 17, 12]
+    bst = BST(values=values)
+    bst.remove_node(15)
+    print(bst)
