@@ -7,36 +7,36 @@ class Node:
         self.parent = parent
         self.balance = balance
 
-    # def get_height(self):
-    #     highest = max(self._left_height(), self._right_height())
-    #     return highest + 1
+    def get_height(self):
+        highest = max(self._left_height(), self._right_height())
+        return highest + 1
 
-    # def _left_height(self):
-    #     height = 0
-    #     current_child = self.left_child
-    #     while current_child:
-    #         height += 1
-    #         current_child = current_child.left_child
-    #     return height
+    def _left_height(self):
+        height = 0
+        current_child = self.left_child
+        while current_child:
+            height += 1
+            current_child = current_child.left_child
+        return height
 
-    # def _right_height(self):
-    #     height = 0
-    #     current_child = self.right_child
-    #     while current_child:
-    #         height += 1
-    #         current_child = current_child.right_child
-    #     return height
+    def _right_height(self):
+        height = 0
+        current_child = self.right_child
+        while current_child:
+            height += 1
+            current_child = current_child.right_child
+        return height
 
-    # def rebalance(self):
-    #     if self.right_child:
-    #         right_height = self.right_child.get_height()
-    #     else:
-    #         right_height = 0
-    #     if self.left_child:
-    #         left_height = self.left_child.get_height()
-    #     else:
-    #         left_height = 0
-    #     self.balance = right_height - left_height
+    def rebalance(self):
+        if self.right_child:
+            right_height = self.right_child.get_height()
+        else:
+            right_height = 0
+        if self.left_child:
+            left_height = self.left_child.get_height()
+        else:
+            left_height = 0
+        self.balance = right_height - left_height
 
     def to_string(self, depth=0):
         _str = ""
@@ -102,17 +102,18 @@ class BST:
         if self.root is None:
             self.root = Node(value=value)
             return self.root
+
         node = self.root
         while node is not None:
             if value < node.value:
                 if node.left_child is None:
                     node.left_child = Node(parent=node, value=value)
-                    break
+                    continue
                 node = node.left_child
             elif value > node.value:
                 if node.right_child is None:
                     node.right_child = Node(parent=node, value=value)
-                    break
+                    continue
                 node = node.right_child
             elif value == node.value:
                 break
