@@ -140,7 +140,7 @@ class BST:
                 y.parent.right_child = x
         if y != node:
             node.value = y.value
-        return y
+        return y.parent
 
     def __str__(self):
         if not self.root:
