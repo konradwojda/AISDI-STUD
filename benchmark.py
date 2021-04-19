@@ -8,7 +8,7 @@ avl_add_lst = []
 bst_find_lst = []
 avl_find_lst = []
 
-elements_to_find = [10, 100, 500, 1000, 2000, 5000, 6000, 10000, 15345, 19000]
+elements_to_find = [100, 500, 1000, 5000, 10000, 25000, 40000, 60000, 80000, 90000, 99999]
 
 functions_adding = {
     'BST(values=list)': bst_add_lst,
@@ -22,44 +22,54 @@ functions_finding = {
 
 n_lst = []
 
-for i in range(len(numbers_counts)):
-    x = numbers_counts[i]
-    n_lst.append(x)
-    setup = f'''
+def benchmark_adding(data_type: str):
+    for i in range(len(numbers_counts)):
+        x = numbers_counts[i]
+        n_lst.append(x)
+        setup = f'''
 from bst import BST
 from avl import AVL
 from generate_values import generate_random_numbers, generate_ascending_numbers
 n = {x}
-list = generate_ascending_numbers(n)
+list = generate_{data_type}_numbers(n)
 '''
-    for key, value in functions_adding.items():
-        time = timeit.timeit(key, setup=setup, number=1)
-        value.append(time)
+        for key, value in functions_adding.items():
+            time = timeit.timeit(key, setup=setup, number=1)
+            value.append(time)
+    plt.plot(n_lst, bst_add_lst, 'o', linestyle='None', label='bst adding')
+    plt.plot(n_lst, avl_add_lst, 'o', linestyle='None', label='avl adding')
+    plt.xticks(n_lst)
+    print('Suma czasów:\n')
+    print('Drzewo AVL:')
+    print(str(sum(avl_add_lst)) + '\n')
+    print('Drzewo BST:')
+    print(str(sum(bst_add_lst)) + '\n')
 
-for element in elements_to_find:
-    x = element
-    setup = f'''
+def benchmark_finding(data_type: str):
+    for element in elements_to_find:
+        x = element
+        setup = f'''
 from bst import BST
 from avl import AVL
 from generate_values import generate_random_numbers, generate_ascending_numbers
-list = generate_random_numbers(20000)
+list = generate_{data_type}_numbers(100000)
 x = {x}
 bst = BST(values=list)
 avl = AVL(values=list)
 '''
-    for key, value in functions_finding.items():
-        time = timeit.timeit(key, setup=setup, number=1)
-        value.append(time)
+        for key, value in functions_finding.items():
+            time = timeit.timeit(key, setup=setup, number=1)
+            value.append(time)
+    plt.plot(elements_to_find, bst_find_lst, 'o', linestyle='None', label='bst finding')
+    plt.plot(elements_to_find, avl_find_lst, 'o', linestyle='None', label='avl finding')
+    print('Suma czasów:\n')
+    print('Drzewo AVL:')
+    print(str(sum(avl_find_lst)) + '\n')
+    print('Drzewo BST:')
+    print(str(sum(bst_find_lst)) + '\n')
 
 
-# plt.plot(n_lst, bst_add_lst, 'o', linestyle='None', label='bst adding')
-# plt.plot(n_lst, avl_add_lst, 'o', linestyle='None', label='avl adding')
-# plt.xticks(n_lst)
-plt.plot(elements_to_find, bst_find_lst, 'o', linestyle='None', label='bst finding')
-plt.plot(elements_to_find, avl_find_lst, 'o', linestyle='None', label='avl finding')
-
-print(sum(avl_find_lst))
-print(sum(bst_find_lst))
-
-plt.legend()
-plt.show()
+if __name__ == '__main__':
+    benchmark_finding('random')
+    plt.legend()
+    plt.show()
