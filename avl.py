@@ -78,47 +78,38 @@ class AVL(BST):
         pivot.rebalance()
 
     def remove_node(self, value):
-        lowest_affected_node = super().remove_node(value)
-
-        if lowest_affected_node:
-            previous_balance = lowest_affected_node.balance
-            lowest_affected_node.rebalance()
-            if (previous_balance != 0 or
-                    lowest_affected_node.balance not in {-1, 1}):
-                self._check_removed_balance(lowest_affected_node)
+        node = super().remove_node(value)
+        node.rebalance()
+        self._check_removed_balance(node)
 
     def _check_removed_balance(self, node):
-        if abs(node.balance) > 1:
-            new_root = self._new_rotated_root(node)
-            new_root_prev_bf = new_root.balance
-
+        if node.balance > 1 or node.balance < -1:
+            new_root = self._get_root(node)
             self._repair_balance(node)
 
-            assert node.parent == new_root
-
-            if new_root_prev_bf == 0 and new_root.balance in {-1, 1}:
+            if (new_root.balance == 0 and
+                    new_root.balance == -1 or new_root.balance == 1):
                 return
 
             node = new_root
-
         if node.parent:
-            previous_balance = node.parent.balance
+            parent_balance = node.parent.balance
 
             if node.parent.left_child == node:
                 node.parent.balance += 1
             else:
                 node.parent.balance -= 1
 
-            if previous_balance != 0 or node.parent.balance not in {-1, 1}:
+            if (parent_balance != 0 or
+                    node.parent.balance > 1 or node.parent.balance < -1):
                 self._check_removed_balance(node.parent)
 
-    def _new_rotated_root(self, node):
+    def _get_root(self, node):
         if node.balance > 0:
             if node.right_child.balance < 0:
                 return node.right.left_child
             else:
                 return node.right_child
-
         else:
             if node.left_child.balance > 0:
                 return node.left_child.right_child
