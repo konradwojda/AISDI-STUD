@@ -38,6 +38,8 @@ template<typename T, size_t A>
 Heap<T, A>::Heap(const std::vector<Element>& other)
 {
 	heap_ = other;
+	for (int i = size(heap_)-1; i >= 0; --i)
+		heapify_down(i);
 }
 
 template<typename T, size_t A>
@@ -80,3 +82,30 @@ int Heap<T, A>::getMax(const int i)
 	}
 	return family_ids[std::max_element(family_val.begin(), family_val.end()) - family_val.begin()];
 }
+
+template<typename T, size_t A>
+Heap<T, A>::Element Heap<T, A>::get_peak()
+{
+	return heap_.front();
+}
+
+template<typename T, size_t A>
+Heap<T, A>::Element Heap<T, A>::remove_peak()
+{
+	Element peak = heap_.front();
+	std::swap(heap_.front(), heap_.back());
+	heap_.pop_back();
+	heapify_down(0);
+	return peak;
+}
+
+template<typename T, size_t A>
+void Heap<T, A>::heapify_down(int i)
+{
+	int largest = getMax(i);
+	if (largest != i)
+	{
+		std::swap(heap_[i], heap_[largest]);
+		heapify_down(largest);
+	}
+}	
