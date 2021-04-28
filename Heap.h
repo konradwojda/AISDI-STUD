@@ -72,8 +72,11 @@ int Heap<T, A>::getMax(const int i)
 	for (int j = 0; j < A; j++)
 	{
 		int child = child(i, j);
-		family_ids.push_back(child);
-		family_val.push_back(heap_[child]);
+		if (child < heap_.size)
+		{
+			family_ids.push_back(child);
+			family_val.push_back(heap_[child]);
+		}
 	}
 	return family_ids[std::max_element(family_val.begin(), family_val.end()) - family_val.begin()];
 }
