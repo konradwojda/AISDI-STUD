@@ -58,7 +58,7 @@ int Heap<T, A>::parent(const int i)
 template<typename T, size_t A>
 int Heap<T, A>::child(const int i, const int child_id)
 {
-	return (i * 3) + child_id + 1;
+	return (i * A) + child_id + 1;
 }
 
 //Returns index maximum value of children and parent of given parent's id
