@@ -24,7 +24,7 @@ public:
 	void add_elem(unsigned int key_, T value);
 	Element get_peak();
 	Element remove_peak();
-	//void heapify_up(int i);
+	void heapify_up(int i);
 	void heapify_down(int i);
 	friend
 		std::ostream& operator<<(std::ostream& os, const Heap& heap);
@@ -84,6 +84,14 @@ int Heap<T, A>::getMax(const int i)
 }
 
 template<typename T, size_t A>
+void Heap<T, A>::add_elem(unsigned int key_, T value)
+{
+	Element new_elem = { key_, value };
+	heap_.push_back(new_elem);
+	heapify_up(size(heap_) - 1);
+}
+
+template<typename T, size_t A>
 Heap<T, A>::Element Heap<T, A>::get_peak()
 {
 	return heap_.front();
@@ -97,6 +105,19 @@ Heap<T, A>::Element Heap<T, A>::remove_peak()
 	heap_.pop_back();
 	heapify_down(0);
 	return peak;
+}
+
+template<typename T, size_t A>
+void Heap<T, A>::heapify_up(int i)
+{
+	int parent_id = parent(i);
+	int largest = getMax(parent_id);
+	if (largest != parent_id)
+	{
+		heapify_down(parent_id);
+		if (parent_id != 0)
+			heapify_up(parent_id);
+	}
 }
 
 template<typename T, size_t A>
