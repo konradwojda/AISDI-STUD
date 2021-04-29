@@ -135,12 +135,12 @@ void Heap<T, A>::heapify_down(int i)
 	}
 }	
 
-//template<typename T, size_t A>
-//std::ostream& operator<<(std::ostream& os, const typename Heap< T, A>::Heap& heap)
-//{
-//	for (int i = 0; i < heap.heap_.size(); ++i)
-//	{
-//		os << heap.heap_[i] << " ";
-//	}
-//	return os;
-//}
+template<typename T, size_t A>
+std::ostream& operator<<(std::ostream& os, const typename Heap< T, A>::Heap& heap)
+{
+	for (int i = 0; i < heap.heap_.size(); ++i)
+	{
+		os << heap.heap_[i] << " ";
+	}
+	return os;
+}

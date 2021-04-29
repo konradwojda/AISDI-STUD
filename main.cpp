@@ -25,9 +25,9 @@ int main()
     heap.add_elem(66, 0);
     heap.add_elem(30, 0);
 
-    for (int i = 0; i < heap.heap_.size(); i++)
-    {
-        std::cout << heap.heap_[i];
-    }
+    //for (int i = 0; i < heap.heap_.size(); i++)
+    //{
+    //    //std::cout << heap.heap_[i];
+    //}
     return 0;
 }
