@@ -67,17 +67,17 @@ int Heap<T, A>::child(const int i, const int child_id)
 template<typename T, size_t A>
 int Heap<T, A>::getMax(const int i)
 {
-	std::vector<int> family_ids;
-	std::vector<int> family_val;
+	std::vector<unsigned int> family_ids;
+	std::vector<unsigned int> family_val;
 	family_ids.push_back(i);
-	family_val.push_back(heap_[i]);
+	family_val.push_back(heap_[i].value_);
 	for (int j = 0; j < A; j++)
 	{
-		int child = child(i, j);
-		if (child < heap_.size())
+		int child_ = child(i, j);
+		if (child_ < heap_.size())
 		{
-			family_ids.push_back(child);
-			family_val.push_back(heap_[child]);
+			family_ids.push_back(child_);
+			family_val.push_back(heap_[child_].value_);
 		}
 	}
 	return family_ids[std::max_element(family_val.begin(), family_val.end()) - family_val.begin()];
@@ -88,17 +88,18 @@ void Heap<T, A>::add_elem(unsigned int key_, T value)
 {
 	Element new_elem = { key_, value };
 	heap_.push_back(new_elem);
-	heapify_up(size(heap_) - 1);
+	unsigned int id = heap_.size() - 1;
+	heapify_up(id);
 }
 
 template<typename T, size_t A>
-Heap<T, A>::Element Heap<T, A>::get_peak()
+Heap<T, A>::template Element Heap<T, A>::get_peak()
 {
-	return heap_.front();
+	return heap_.begin();
 }
 
 template<typename T, size_t A>
-Heap<T, A>::Element Heap<T, A>::remove_peak()
+Heap<T, A>::template Element Heap<T, A>::remove_peak()
 {
 	Element peak = heap_.front();
 	std::swap(heap_.front(), heap_.back());
@@ -130,3 +131,13 @@ void Heap<T, A>::heapify_down(int i)
 		heapify_down(largest);
 	}
 }	
+
+template<typename T, size_t A>
+std::ostream& operator<<(std::ostream& os, const typename Heap< T, A>::Heap& heap)
+{
+	for (int i = 0; i < heap.heap_.size(); ++i)
+	{
+		os << heap.heap_[i] << " ";
+	}
+	return os;
+}
