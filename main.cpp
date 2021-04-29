@@ -16,10 +16,18 @@ int main()
     cout << duration;
 
     Heap<int, 2> heap = Heap<int, 2>();
-    heap.add_elem(unsigned int(0), size_t(2));
-    //for (int i = 0; i < 10; i++)
-    //{
-    //    heap.add_elem(i, i*3);
-    //}
+    heap.add_elem(0, 0);
+    heap.add_elem(11, 0);
+    heap.add_elem(22, 0);
+    heap.add_elem(33, 0);
+    heap.add_elem(44, 0);
+    heap.add_elem(55, 0);
+    heap.add_elem(66, 0);
+    heap.add_elem(30, 0);
+
+    for (int i = 0; i < heap.heap_.size(); i++)
+    {
+        std::cout << heap.heap_[i];
+    }
     return 0;
 }

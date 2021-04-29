@@ -53,7 +53,10 @@ std::ostream& operator<<(std::ostream& os, const typename Heap< T, A>::Element& 
 template<typename T, size_t A>
 int Heap<T, A>::parent(const int i)
 {
-	return (i - 1) / A;
+	int temp = (i - 1) / A;
+	if (temp < 1)
+		return 0;
+	return temp;
 }
 
 //Returns index of <0, A) child of given parent's id 
@@ -68,19 +71,19 @@ template<typename T, size_t A>
 int Heap<T, A>::getMax(const int i)
 {
 	std::vector<unsigned int> family_ids;
-	std::vector<unsigned int> family_val;
+	std::vector<unsigned int> family_key;
 	family_ids.push_back(i);
-	family_val.push_back(heap_[i].value_);
+	family_key.push_back(heap_[i].key_);
 	for (int j = 0; j < A; j++)
 	{
 		int child_ = child(i, j);
 		if (child_ < heap_.size())
 		{
 			family_ids.push_back(child_);
-			family_val.push_back(heap_[child_].value_);
+			family_key.push_back(heap_[child_].key_);
 		}
 	}
-	return family_ids[std::max_element(family_val.begin(), family_val.end()) - family_val.begin()];
+	return family_ids[std::max_element(family_key.begin(), family_key.end()) - family_key.begin()];
 }
 
 template<typename T, size_t A>
@@ -88,7 +91,7 @@ void Heap<T, A>::add_elem(unsigned int key_, T value)
 {
 	Element new_elem = { key_, value };
 	heap_.push_back(new_elem);
-	unsigned int id = heap_.size() - 1;
+	int id = heap_.size() - 1;
 	heapify_up(id);
 }
 
@@ -132,12 +135,12 @@ void Heap<T, A>::heapify_down(int i)
 	}
 }	
 
-template<typename T, size_t A>
-std::ostream& operator<<(std::ostream& os, const typename Heap< T, A>::Heap& heap)
-{
-	for (int i = 0; i < heap.heap_.size(); ++i)
-	{
-		os << heap.heap_[i] << " ";
-	}
-	return os;
-}
+//template<typename T, size_t A>
+//std::ostream& operator<<(std::ostream& os, const typename Heap< T, A>::Heap& heap)
+//{
+//	for (int i = 0; i < heap.heap_.size(); ++i)
+//	{
+//		os << heap.heap_[i] << " ";
+//	}
+//	return os;
+//}
