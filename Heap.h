@@ -2,10 +2,11 @@
 #include <vector>
 #include <iostream>
 #include <algorithm>
+#include <math.h> 
 
 template <typename T, size_t A>
 class Heap
-{
+{	
 public:
 	Heap();
 	//Heap(const std::vector<Element>& other);
@@ -13,8 +14,8 @@ public:
 	{
 		unsigned int key_;
 		T value_;
-		friend
-			std::ostream& operator<<(std::ostream& os, const Element& elem);
+		//std::ostream& operator<<(std::ostream& os);
+		void show(std::ostream& os);
 	};
 	Heap(const std::vector<Element>& other);
 	std::vector<Element> heap_;
@@ -26,15 +27,16 @@ public:
 	Element remove_peak();
 	void heapify_up(int i);
 	void heapify_down(int i);
-	friend
-		std::ostream& operator<<(std::ostream& os, const Heap& heap);
+	int depth(int first_elem, int n);
+	template <typename T, size_t A> friend
+		std::ostream& operator<<(std::ostream& os, Heap& heap);
 };
 
 template <typename T, size_t A>
 Heap<T, A>::Heap()
 {}
 
-template<typename T, size_t A>
+template <typename T, size_t A>
 Heap<T, A>::Heap(const std::vector<Element>& other)
 {
 	heap_ = other;
@@ -43,20 +45,25 @@ Heap<T, A>::Heap(const std::vector<Element>& other)
 }
 
 template<typename T, size_t A>
-std::ostream& operator<<(std::ostream& os, const typename Heap< T, A>::Element& elem)
+void Heap<T, A>::Element::show(std::ostream& os)
 {
-	os << "(" << elem.key_ << ", " << elem.value_ << ")";
-	return os;
+	os << "(" << key_ << ", " << value_ << ")";
 }
+
+//template <typename T, size_t A>
+//std::ostream& Heap<T, A>::Element::operator<<(std::ostream& os)
+//{
+//	os << "sDF";
+//	return os;
+//}
 
 //Returns index of parent of given child's id
 template<typename T, size_t A>
-int Heap<T, A>::parent(const int i)
+int Heap<T, A>::parent(int i)
 {
-	int temp = (i - 1) / A;
-	if (temp < 1)
+	if (i < 1)
 		return 0;
-	return temp;
+	return (i - 1) / A;
 }
 
 //Returns index of <0, A) child of given parent's id 
@@ -133,14 +140,55 @@ void Heap<T, A>::heapify_down(int i)
 		std::swap(heap_[i], heap_[largest]);
 		heapify_down(largest);
 	}
-}	
+}
 
 template<typename T, size_t A>
-std::ostream& operator<<(std::ostream& os, const typename Heap< T, A>::Heap& heap)
+int Heap<T, A>::depth(int first_elem, int n)
 {
-	for (int i = 0; i < heap.heap_.size(); ++i)
+	if (n == 1)
+		return first_elem;
+	return depth(first_elem, n - 1) * A + A - 1;
+}
+
+template<typename T, size_t A>
+std::ostream& operator<<(std::ostream& os, Heap< T, A>& heap)
+{
+	std::string gap = "     ";
+	int heap_size = heap.heap_.size();
+	int height = (int)(ceil(log(heap_size * A - heap_size + 1) / log(A)));
+	int current_height = height;
+	int first_gap = heap.depth(A - 1, current_height - 1);
+	int btw_gap = heap.depth(1, current_height);
+	int number_of_elements = pow(A, height - current_height);
+	int current_element = number_of_elements;
+	for (int i = 0; i < heap_size; ++i)
 	{
-		os << heap.heap_[i] << " ";
+		if (number_of_elements == current_element)
+		{
+			for (int i = 0; i < first_gap; i++)
+				os << gap;
+		}
+		heap.heap_[i].show(os);
+		for (int i = 0; i < btw_gap; i++)
+			os << gap;
+		current_element--;
+		if (current_element < 1)
+		{
+			os << "\n";
+			current_height--;
+			number_of_elements = pow(A, height - current_height);
+			current_element = number_of_elements;
+			if (current_height <= 1)
+			{
+				first_gap = 0;
+				btw_gap = 0;
+			}
+			else
+			{
+				first_gap = heap.depth(A - 1, current_height - 1);
+				btw_gap = heap.depth(1, current_height);
+			}
+		}
 	}
 	return os;
 }

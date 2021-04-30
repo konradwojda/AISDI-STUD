@@ -13,7 +13,7 @@ int main()
 
     auto duration = duration_cast<microseconds>(t2 - t1).count();
 
-    cout << duration;
+    //cout << duration;
 
     Heap<int, 2> heap = Heap<int, 2>();
     heap.add_elem(0, 0);
@@ -24,10 +24,6 @@ int main()
     heap.add_elem(55, 0);
     heap.add_elem(66, 0);
     heap.add_elem(30, 0);
-
-    //for (int i = 0; i < heap.heap_.size(); i++)
-    //{
-    //    //std::cout << heap.heap_[i];
-    //}
+    std::cout << heap;
     return 0;
 }
