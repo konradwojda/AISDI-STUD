@@ -106,7 +106,7 @@ void Heap<T, A>::add_elem(unsigned int key_, T value)
 template<typename T, size_t A>
 Heap<T, A>::template Element Heap<T, A>::get_peak()
 {
-	return heap_.begin();
+	return heap_[0];
 }
 
 template<typename T, size_t A>
