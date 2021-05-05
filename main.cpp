@@ -3,27 +3,24 @@
 #include <chrono>
 
 using namespace std;
-using namespace std::chrono;
 
 int main()
 {
-    high_resolution_clock::time_point t1 = high_resolution_clock::now();
-    //your code here
-    high_resolution_clock::time_point t2 = high_resolution_clock::now();
-
-    auto duration = duration_cast<microseconds>(t2 - t1).count();
-
-    //cout << duration;
-
     Heap<int, 2> heap = Heap<int, 2>();
-    heap.add_elem(0, 0);
-    heap.add_elem(11, 0);
-    heap.add_elem(22, 0);
-    heap.add_elem(33, 0);
-    heap.add_elem(44, 0);
-    heap.add_elem(55, 0);
-    heap.add_elem(66, 0);
-    heap.add_elem(30, 0);
+    for (int i = 0; i < 10; ++i)
+    {
+        heap.add_elem(i, 0);
+    }
+    //auto t1 = std::chrono::high_resolution_clock::now();
+    //heap.remove_peak();
+    //auto t2 = std::chrono::high_resolution_clock::now();
+
+    //std::chrono::duration<double, std::milli> fp_ms = t2 - t1;
+
+    //auto int_ms = std::chrono::duration_cast<std::chrono::milliseconds>(t2 - t1);
+    //std::chrono::duration<long, std::micro> int_usec = int_ms;
+
+    //std::cout << "Time" << fp_ms.count() << " ms\n";
     std::cout << heap;
     return 0;
 }

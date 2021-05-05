@@ -47,7 +47,8 @@ Heap<T, A>::Heap(const std::vector<Element>& other)
 template<typename T, size_t A>
 void Heap<T, A>::Element::show(std::ostream& os)
 {
-	os << "(" << key_ << ", " << value_ << ")";
+	//os << "(" << key_ << ", " << value_ << ")";
+	os << key_;
 }
 
 //template <typename T, size_t A>
@@ -153,7 +154,7 @@ int Heap<T, A>::depth(int first_elem, int n)
 template<typename T, size_t A>
 std::ostream& operator<<(std::ostream& os, Heap< T, A>& heap)
 {
-	std::string gap = "     ";
+	std::string gap = "  ";
 	int heap_size = heap.heap_.size();
 	int height = (int)(ceil(log(heap_size * A - heap_size + 1) / log(A)));
 	int current_height = height;
@@ -181,7 +182,7 @@ std::ostream& operator<<(std::ostream& os, Heap< T, A>& heap)
 			if (current_height <= 1)
 			{
 				first_gap = 0;
-				btw_gap = 0;
+				btw_gap = 1;
 			}
 			else
 			{
