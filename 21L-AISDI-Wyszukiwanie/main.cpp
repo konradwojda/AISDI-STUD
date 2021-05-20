@@ -3,8 +3,8 @@
 
 int main()
 {
-	std::string pattern = "adasdad";
-	std::string text = "f";
+	std::string pattern = "";
+	std::string text = "ABC ABC";
 	std::vector<int> result = kmp_find(pattern, text);
 	for (auto e : result)
 	{
