@@ -3,9 +3,10 @@
 
 int main()
 {
-	std::string pattern = "ABACABAB";
-	std::vector<int> kmp = kmp_match_table(pattern);
-	for (auto e : kmp)
+	std::string pattern = "ABC";
+	std::string text = "ABC ABCDAB ABCDABCDABDE";
+	std::vector<int> result = kmp_find(pattern, text);
+	for (auto e : result)
 	{
 		std::cout << e << std::endl;
 	}
