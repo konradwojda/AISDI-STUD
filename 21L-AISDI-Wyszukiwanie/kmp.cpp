@@ -27,7 +27,7 @@ std::vector<int> kmp_match_table(std::string const& pattern)
 /*
 * Uses KMP algorithm to find pattern in text.
 * Return vector with ids where pattern has been found in text
-* If length of text is 0, returns vector with -1 as first element.
+* If length of text is 0, returns empty vector
 * If length of pattern is 0, returns vector with numbers from 0 to text length
 */
 
@@ -47,7 +47,6 @@ std::vector<int> kmp_find(std::string const& pattern, std::string const& text)
 	}
 	if (text.length() == 0)
 	{
-		result.push_back(-1);
 		return result;
 	}
 	while (text_id < text.length())
