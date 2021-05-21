@@ -141,9 +141,11 @@
   <ItemGroup>
     <ClCompile Include="kmp.cpp" />
     <ClCompile Include="main.cpp" />
+    <ClCompile Include="naive.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="kmp.h" />
+    <ClInclude Include="naive.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
