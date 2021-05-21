@@ -3,6 +3,21 @@
 #include <iostream>
 #include <chrono>
 
+std::string generate_alphabet(int number)
+{
+	const int MAX = 26;
+	std::string result = "";
+	char alphabet[MAX] = { 'a', 'b', 'c', 'd', 'e', 'f', 'g',
+						  'h', 'i', 'j', 'k', 'l', 'm', 'n',
+						  'o', 'p', 'q', 'r', 's', 't', 'u',
+						  'v', 'w', 'x', 'y', 'z' };
+
+	for (int i = 0; i < number; i++)
+		result = result + alphabet[rand() % MAX];
+	return result;
+}
+
+
 int main()
 {
 	std::string pattern = "";
@@ -19,6 +34,8 @@ int main()
 	{
 		std::cout << e << std::endl;
 	}
+	std::string alphabet = generate_alphabet(100);
+	std::cout << alphabet;
 
 	auto t1 = std::chrono::high_resolution_clock::now();
 	//FIND FUNCTION
