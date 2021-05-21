@@ -39,7 +39,7 @@ std::vector<int> kmp_find(std::string const& pattern, std::string const& text)
 	int text_id = 0;
 	if (pattern.length() == 0)
 	{
-		for (int i = 0; i < text.length(); i++)
+		for (int i = 0; i <= text.length(); i++)
 		{
 			result.push_back(i);
 		}
