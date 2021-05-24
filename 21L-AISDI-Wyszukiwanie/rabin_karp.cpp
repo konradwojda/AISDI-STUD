@@ -6,8 +6,21 @@ std::vector<int> rabin_karp_find(std::string const& txt, std::string const& patt
     int pat_hash_value{ 0 };
     int txt_hash_value{ 0 };
     int control_value = 1;
-    int maxchar = 256;
+    int maxchar = 512;
     std::vector<int> result;
+
+    if (pattern.length() == 0)
+    {
+        for (int i = 0; i <= txt_len; i++)
+        {
+            result.push_back(i);
+        }
+        return result;
+    }
+    if (txt_len == 0)
+    {
+        return result;
+    }
 
     for (int i = 0; i < pat_len - 1; i++)
         control_value = (control_value * maxchar) % prime_number;
