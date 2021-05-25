@@ -158,6 +158,7 @@
   <ItemGroup>
     <ClCompile Include="..\kmp.cpp" />
     <ClCompile Include="..\naive.cpp" />
+    <ClCompile Include="..\rabin_karp.cpp" />
     <ClCompile Include="Tests.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

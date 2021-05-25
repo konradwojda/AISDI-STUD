@@ -1,8 +1,10 @@
 #include "rabin_karp.h"
 
-std::vector<int> rabin_karp_find(std::string const& txt, std::string const& pattern, int prime_number) {
+std::vector<int> rabin_karp_find(std::string const& pattern, std::string const& txt, int prime_number) {
 	int txt_len = txt.length();
 	int pat_len = pattern.length();
+    if (pat_len > txt_len)
+        return {};
     int pat_hash_value{ 0 };
     int txt_hash_value{ 0 };
     int control_value = 1;

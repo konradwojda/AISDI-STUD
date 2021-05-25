@@ -1,16 +1,14 @@
 #include "kmp.h"
 #include "naive.h"
+#include "rabin_karp.h"
 #include <iostream>
 #include <chrono>
 
 std::string generate_alphabet(int number)
 {
-	const int MAX = 26;
+	const int MAX = 5;
 	std::string result = "";
-	char alphabet[MAX] = { 'a', 'b', 'c', 'd', 'e', 'f', 'g',
-						  'h', 'i', 'j', 'k', 'l', 'm', 'n',
-						  'o', 'p', 'q', 'r', 's', 't', 'u',
-						  'v', 'w', 'x', 'y', 'z' };
+	char alphabet[MAX] = { 'a', 'b', 'c'};
 
 	for (int i = 0; i < number; i++)
 		result = result + alphabet[rand() % MAX];
@@ -20,33 +18,45 @@ std::string generate_alphabet(int number)
 
 int main()
 {
+	srand(time(NULL));
+	//std::vector<int> kmp_result = kmp_find(pattern, text);
+	//std::vector<int> naive_result = naive_find(pattern, text);
+	//std::vector<int> rb_result = rabin_karp_find(pattern, text, 5);
+
+	std::string alphabet = "";
 	std::string pattern = "";
-	std::string text = "ABC ABC";
-	std::vector<int> kmp_result = kmp_find(pattern, text);
-	std::vector<int> naive_result = naive_find(pattern, text);
-	std::cout << "KMP:\n";
-	for (auto e : kmp_result)
+	std::chrono::steady_clock::time_point t1, t2;
+	std::chrono::microseconds int_ms;
+	std::chrono::duration<double, std::milli> fp_ms;
+	alphabet = generate_alphabet(500000);
+	for (int i = 1; i <= 10; i++)
 	{
-		std::cout << e << std::endl;
+		pattern = generate_alphabet(i * 1000);
+
+		t1 = std::chrono::high_resolution_clock::now();
+		std::vector<int> naive_result = naive_find(pattern, alphabet);
+		t2 = std::chrono::high_resolution_clock::now();
+
+		fp_ms = t2 - t1;
+
+		std::cout <<fp_ms.count() << ", ";
+
+		t1 = std::chrono::high_resolution_clock::now();
+		std::vector<int> sd_result = kmp_find(pattern, alphabet);
+		t2 = std::chrono::high_resolution_clock::now();
+
+		fp_ms = t2 - t1;
+
+		std::cout << fp_ms.count() << ", ";
+
+		t1 = std::chrono::high_resolution_clock::now();
+		std::vector<int> asde_result = rabin_karp_find(pattern, alphabet, 5);
+		t2 = std::chrono::high_resolution_clock::now();
+
+		fp_ms = t2 - t1;
+
+		std::cout << fp_ms.count() << "\n";
 	}
-	std::cout << "NAIVE:\n";
-	for (auto e : naive_result)
-	{
-		std::cout << e << std::endl;
-	}
-	std::string alphabet = generate_alphabet(100);
-	std::cout << alphabet;
-
-	auto t1 = std::chrono::high_resolution_clock::now();
-	//FIND FUNCTION
-	auto t2 = std::chrono::high_resolution_clock::now();
-
-	std::chrono::duration<double, std::milli> fp_ms = t2 - t1;
-
-	auto int_ms = std::chrono::duration_cast<std::chrono::milliseconds>(t2 - t1);
-	std::chrono::duration<long, std::micro> int_usec = int_ms;
-
-	std::cout << "Time" << fp_ms.count() << " ms\n";
 
 	return 0;
 }
