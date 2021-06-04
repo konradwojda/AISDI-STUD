@@ -1,4 +1,3 @@
-from typing import List
 import heapq
 
 
@@ -13,6 +12,7 @@ class Node:
 
     def add_adjacent(self, adjacent_node):
         self._adjacents.append(adjacent_node)
+        self._adjacents.sort(key=lambda node: node.get_cost())
 
     def get_position(self):
         return self._position
@@ -21,6 +21,7 @@ class Node:
         return self._cost
 
     def get_adjacents(self):
+        self._adjacents.sort(key=lambda node: node.get_cost())
         return self._adjacents
 
     def set_visited(self):
@@ -89,41 +90,41 @@ def get_nodes(file_, in_tuples=0):
     return out_nodes
 
 
-def dijkstra(nodes: List):
-    start = None
-    end = None
-    visited_nodes = set()
-    not_visited = set()
-    costs_dict = {}
-    prevorius_nodes_dict = {}
-    for node in nodes:
-        costs_dict[node] = float("inf")
-        prevorius_nodes_dict[node] = -1
-        if node.get_cost() == 0:
-            if start is None:
-                start = node
-            else:
-                end = node
-    costs_dict[start] = 0
-    not_visited = set(nodes)
-    while len(not_visited) != 0:
-        queue = sorted(not_visited, key=lambda node: costs_dict[node])
-        visited_nodes.add(queue[0])
-        not_visited.remove(queue[0])
-        for neighbour in queue[0].get_adjacents():
-            if neighbour in not_visited:
-                if costs_dict[neighbour] > costs_dict[queue[0]] + neighbour.get_cost():
-                    costs_dict[neighbour] = costs_dict[queue[0]] + neighbour.get_cost()
-                    prevorius_nodes_dict[neighbour] = queue[0]
-                    neighbour.set_visited()
-    temp = end
-    while temp != start:
-        temp.set_visible()
-        prev = prevorius_nodes_dict[temp]
-        temp = prev
-    start.set_visible()
-    start.set_visited()
-    return nodes
+# def dijkstra(nodes: List):
+#     start = None
+#     end = None
+#     visited_nodes = set()
+#     not_visited = set()
+#     costs_dict = {}
+#     prevorius_nodes_dict = {}
+#     for node in nodes:
+#         costs_dict[node] = float("inf")
+#         prevorius_nodes_dict[node] = -1
+#         if node.get_cost() == 0:
+#             if start is None:
+#                 start = node
+#             else:
+#                 end = node
+#     costs_dict[start] = 0
+#     not_visited = set(nodes)
+#     while len(not_visited) != 0:
+#         queue = sorted(not_visited, key=lambda node: costs_dict[node])
+#         visited_nodes.add(queue[0])
+#         not_visited.remove(queue[0])
+#         for neighbour in queue[0].get_adjacents():
+#             if neighbour in not_visited:
+#                 if costs_dict[neighbour] > costs_dict[queue[0]] + neighbour.get_cost():
+#                     costs_dict[neighbour] = costs_dict[queue[0]] + neighbour.get_cost()
+#                     prevorius_nodes_dict[neighbour] = queue[0]
+#                     neighbour.set_visited()
+#     temp = end
+#     while temp != start:
+#         temp.set_visible()
+#         prev = prevorius_nodes_dict[temp]
+#         temp = prev
+#     start.set_visible()
+#     start.set_visited()
+#     return nodes
 
 
 def dijkstra2(nodes: list):
@@ -183,4 +184,3 @@ if __name__ == "__main__":
     nodes = get_nodes("table.txt")
     nodes = dijkstra2(nodes)
     print(print_nodes(nodes, 6))
-    print("dupa")
