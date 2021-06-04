@@ -1,3 +1,6 @@
+from typing import List
+
+
 class Node:
     def __init__(self, position, cost):
         self._position = position
@@ -5,6 +8,7 @@ class Node:
         self._adjacents = []
         self._visited = False
         self._previous = None
+        self._visible = False
 
     def add_adjacent(self, adjacent_node):
         self._adjacents.append(adjacent_node)
@@ -23,6 +27,12 @@ class Node:
 
     def is_visited(self):
         return self._visited
+
+    def set_visible(self):
+        self._visible = True
+
+    def is_visible(self):
+        return self._visible
 
     def set_previous(self, other_node):
         self._previous = other_node
@@ -76,3 +86,61 @@ def get_nodes(file_, in_tuples=0):
             else:
                 out_nodes.append(node)
     return out_nodes
+
+
+def dijkstra(nodes: List):
+    start = None
+    end = None
+    visited_nodes = set()
+    not_visited = set()
+    costs_dict = {}
+    prevorius_nodes_dict = {}
+    for node in nodes:
+        costs_dict[node] = float("inf")
+        prevorius_nodes_dict[node] = -1
+        if node.get_cost() == 0:
+            if start is None:
+                start = node
+            else:
+                end = node
+    costs_dict[start] = 0
+    not_visited = set(nodes)
+    while len(not_visited) != 0:
+        queue = sorted(not_visited, key=lambda node: costs_dict[node])
+        visited_nodes.add(queue[0])
+        not_visited.remove(queue[0])
+        for neighbour in queue[0].get_adjacents():
+            if neighbour in not_visited:
+                neighbour.set_visited()
+                if costs_dict[neighbour] > costs_dict[queue[0]] + neighbour.get_cost():
+                    costs_dict[neighbour] = costs_dict[queue[0]] + neighbour.get_cost()
+                    prevorius_nodes_dict[neighbour] = queue[0]
+    temp = end
+    while temp != start:
+        temp.set_visible()
+        prev = prevorius_nodes_dict[temp]
+        temp = prev
+    start.set_visible()
+    start.set_visited()
+    return nodes
+
+
+def print_nodes(nodes: list, width):
+    text = ''
+    for i, node in enumerate(nodes):
+        if node.is_visible() and node.is_visited():
+            text += str(node.get_cost())
+        elif node.is_visited():
+            text += '*'
+        else:
+            text += ' '
+        if i % width == width - 1:
+            text += '\n'
+    return text[:len(text) - 1]
+
+
+if __name__ == "__main__":
+    nodes = get_nodes("test.txt")
+    nodes = dijkstra(nodes)
+    print(print_nodes(nodes, 6))
+    print("dupa")
