@@ -1,4 +1,5 @@
 from typing import List
+import heapq
 
 
 class Node:
@@ -111,14 +112,53 @@ def dijkstra(nodes: List):
         not_visited.remove(queue[0])
         for neighbour in queue[0].get_adjacents():
             if neighbour in not_visited:
-                neighbour.set_visited()
                 if costs_dict[neighbour] > costs_dict[queue[0]] + neighbour.get_cost():
                     costs_dict[neighbour] = costs_dict[queue[0]] + neighbour.get_cost()
                     prevorius_nodes_dict[neighbour] = queue[0]
+                    neighbour.set_visited()
     temp = end
     while temp != start:
         temp.set_visible()
         prev = prevorius_nodes_dict[temp]
+        temp = prev
+    start.set_visible()
+    start.set_visited()
+    return nodes
+
+
+def dijkstra2(nodes: list):
+    start = None
+    end = None
+    costs = {}
+    for node in nodes:
+        costs[node] = float("inf")
+        if node.get_cost() == 0:
+            if start is None:
+                start = node
+            else:
+                end = node
+    entry_number = 0
+    nodes_queue = [(0, entry_number, start)]
+    entry_number += 1
+    costs[start] = 0
+    while nodes_queue:
+        cost, xxx, node = heapq.heappop(nodes_queue)
+        node.set_visited()
+        if cost > costs[node]:
+            continue
+        if node == end:
+            break
+        for neighbor in node.get_adjacents():
+            n_cost = cost + neighbor.get_cost()
+            if n_cost < costs[neighbor]:
+                costs[neighbor] = n_cost
+                neighbor.set_previous(node)
+                heapq.heappush(nodes_queue, (n_cost, entry_number, neighbor))
+                entry_number += 1
+    temp = end
+    while temp != start:
+        temp.set_visible()
+        prev = temp.get_previous()
         temp = prev
     start.set_visible()
     start.set_visited()
@@ -140,7 +180,7 @@ def print_nodes(nodes: list, width):
 
 
 if __name__ == "__main__":
-    nodes = get_nodes("test.txt")
-    nodes = dijkstra(nodes)
+    nodes = get_nodes("table.txt")
+    nodes = dijkstra2(nodes)
     print(print_nodes(nodes, 6))
     print("dupa")
