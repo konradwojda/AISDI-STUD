@@ -2,7 +2,8 @@ import heapq
 
 
 class Node:
-    def __init__(self, cost):
+    def __init__(self, position, cost):
+        self._position = position
         self._cost = cost
         self._adjacents = []
         self._visited = False
@@ -19,6 +20,9 @@ class Node:
     def get_adjacents(self):
         # self._adjacents.sort(key=lambda node: node.get_cost())
         return self._adjacents
+
+    def get_position(self):
+        return self._position
 
     def set_visited(self):
         self._visited = True
@@ -49,7 +53,7 @@ def create_nodes(table):
     for i in range(len(table)):
         sub_nodes = []
         for j in range(len(table[i])):
-            new_node = Node(int(table[i][j]))
+            new_node = Node((i, j), int(table[i][j]))
             sub_nodes.append(new_node)
         nodes.append(sub_nodes)
     return nodes
@@ -162,6 +166,46 @@ def dijkstra2(nodes: list):
     start.set_visible()
     return nodes
 
+def a_star(nodes: list):
+    start = None
+    end = None
+    costs = {}
+    for node in nodes:
+        costs[node] = float("inf")
+        if node.get_cost() == 0:
+            if start is None:
+                start = node
+            else:
+                end = node
+    nodes_queue = [(0, start)]
+    costs[start] = 0
+    f_costs = costs.copy()
+    while nodes_queue:
+        c_fcost, node = heapq.heappop(nodes_queue)
+        node.set_visited()
+        if node == end:
+            break
+        nodes_queue.clear()
+        for neighbor in node.get_adjacents():
+            n_cost = costs[node] + neighbor.get_cost()
+            neighbor.set_visited()
+            if neighbor not in costs or n_cost < costs[neighbor]:
+                costs[neighbor] = n_cost
+                f_costs[neighbor] = n_cost + heuristic(neighbor, end)
+                neighbor.set_previous(node)
+                heapq.heappush(nodes_queue, (f_costs[neighbor], neighbor))
+    temp = end
+    while temp != start:
+        temp.set_visible()
+        prev = temp.get_previous()
+        temp = prev
+    start.set_visible()
+    return nodes
+
+def heuristic(current_node : Node, end : Node):
+    x1, y1 = current_node.get_position()
+    x2, y2 = end.get_position()
+    return abs(x1 - x2) + abs(y1 - y2)
 
 def print_nodes(nodes: list, width):
     text = ''
@@ -181,3 +225,7 @@ if __name__ == "__main__":
     nodes, width = get_nodes("table.txt")
     nodes = dijkstra2(nodes)
     print(print_nodes(nodes, width))
+    print("-----------")
+    a_nodes, a_width = get_nodes("table.txt")
+    a_nodes = a_star(a_nodes)
+    print(print_nodes(a_nodes, a_width))
