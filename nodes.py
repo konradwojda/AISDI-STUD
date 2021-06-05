@@ -2,8 +2,7 @@ import heapq
 
 
 class Node:
-    def __init__(self, position, cost):
-        self._position = position
+    def __init__(self, cost):
         self._cost = cost
         self._adjacents = []
         self._visited = False
@@ -13,9 +12,6 @@ class Node:
     def add_adjacent(self, adjacent_node):
         self._adjacents.append(adjacent_node)
         # self._adjacents.sort(key=lambda node: node.get_cost())
-
-    def get_position(self):
-        return self._position
 
     def get_cost(self):
         return self._cost
@@ -53,7 +49,7 @@ def create_nodes(table):
     for i in range(len(table)):
         sub_nodes = []
         for j in range(len(table[i])):
-            new_node = Node((i, j), int(table[i][j]))
+            new_node = Node(int(table[i][j]))
             sub_nodes.append(new_node)
         nodes.append(sub_nodes)
     return nodes
