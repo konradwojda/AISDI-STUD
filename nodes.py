@@ -12,7 +12,7 @@ class Node:
 
     def add_adjacent(self, adjacent_node):
         self._adjacents.append(adjacent_node)
-        self._adjacents.sort(key=lambda node: node.get_cost())
+        # self._adjacents.sort(key=lambda node: node.get_cost())
 
     def get_position(self):
         return self._position
@@ -21,7 +21,7 @@ class Node:
         return self._cost
 
     def get_adjacents(self):
-        self._adjacents.sort(key=lambda node: node.get_cost())
+        # self._adjacents.sort(key=lambda node: node.get_cost())
         return self._adjacents
 
     def set_visited(self):
@@ -87,7 +87,7 @@ def get_nodes(file_, in_tuples=0):
                 out_nodes.append((node, node.get_cost))
             else:
                 out_nodes.append(node)
-    return out_nodes
+    return out_nodes, len(nodes[0])
 
 
 # def dijkstra(nodes: List):
@@ -149,8 +149,10 @@ def dijkstra2(nodes: list):
             continue
         if node == end:
             break
+        nodes_queue.clear()
         for neighbor in node.get_adjacents():
             n_cost = cost + neighbor.get_cost()
+            neighbor.set_visited()
             if n_cost < costs[neighbor]:
                 costs[neighbor] = n_cost
                 neighbor.set_previous(node)
@@ -162,7 +164,6 @@ def dijkstra2(nodes: list):
         prev = temp.get_previous()
         temp = prev
     start.set_visible()
-    start.set_visited()
     return nodes
 
 
@@ -181,6 +182,6 @@ def print_nodes(nodes: list, width):
 
 
 if __name__ == "__main__":
-    nodes = get_nodes("table.txt")
+    nodes, width = get_nodes("table.txt")
     nodes = dijkstra2(nodes)
-    print(print_nodes(nodes, 6))
+    print(print_nodes(nodes, width))
