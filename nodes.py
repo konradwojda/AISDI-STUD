@@ -1,5 +1,5 @@
 import heapq
-
+import math
 
 class Node:
     def __init__(self, position, cost):
@@ -169,9 +169,9 @@ def dijkstra2(nodes: list):
 def a_star(nodes: list):
     start = None
     end = None
-    costs = {}
+    g_costs = {}
     for node in nodes:
-        costs[node] = float("inf")
+        g_costs[node] = float("inf")
         if node.get_cost() == 0:
             if start is None:
                 start = node
@@ -179,20 +179,20 @@ def a_star(nodes: list):
                 end = node
     entry_number = 0
     nodes_queue = [(0, entry_number, start)]
-    costs[start] = 0
+    g_costs[start] = 0
     entry_number += 1
-    f_costs = costs.copy()
+    f_costs = g_costs.copy()
     while nodes_queue:
         c_fcost, xxx, node = heapq.heappop(nodes_queue)
         node.set_visited()
         if node == end:
             break
         for neighbor in node.get_adjacents():
-            n_cost = costs[node] + neighbor.get_cost()
+            temp_g_cost = g_costs[node] + neighbor.get_cost()
             neighbor.set_visited()
-            if neighbor not in costs or n_cost < costs[neighbor]:
-                costs[neighbor] = n_cost
-                f_costs[neighbor] = n_cost + heuristic(neighbor, end)
+            if temp_g_cost < g_costs[neighbor]:
+                g_costs[neighbor] = temp_g_cost
+                f_costs[neighbor] = temp_g_cost + heuristic(neighbor, end)
                 neighbor.set_previous(node)
                 heapq.heappush(nodes_queue, (f_costs[neighbor], entry_number, neighbor))
                 entry_number += 1
@@ -206,9 +206,7 @@ def a_star(nodes: list):
 
 
 def heuristic(current_node: Node, end: Node):
-    x1, y1 = current_node.get_position()
-    x2, y2 = end.get_position()
-    return abs(x1 - x2) + abs(y1 - y2)
+    return math.dist(current_node.get_position(), end.get_position())
 
 
 def print_nodes(nodes: list, width):
@@ -226,10 +224,10 @@ def print_nodes(nodes: list, width):
 
 
 if __name__ == "__main__":
-    nodes, width = get_nodes("test2.txt")
+    nodes, width = get_nodes("table3.txt")
     nodes = dijkstra2(nodes)
     print(print_nodes(nodes, width))
     print("-----------")
-    a_nodes, a_width = get_nodes("test2.txt")
+    a_nodes, a_width = get_nodes("table3.txt")
     a_nodes = a_star(a_nodes)
     print(print_nodes(a_nodes, a_width))
